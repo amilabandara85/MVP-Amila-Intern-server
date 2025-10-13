@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:55676",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "E:\\MVP studio\\intern-project\\AmilaOnboarding\\AmilaOnboarding.Server\\..\\amilaonboarding.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}
