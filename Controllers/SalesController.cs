@@ -24,21 +24,46 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sale>>> GetSales()
         {
-            return await _context.Sales.ToListAsync();
+            try
+            {
+                
+                return await _context.Sales
+                    .Include(s => s.Customer)
+                    .Include(s => s.Product)
+                    .Include(s => s.Store)
+                    .ToArrayAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,"An error occurred while retrieving sales data.");
+            }
         }
+
+        
 
         // GET: api/Sales/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Sale>> GetSale(int id)
         {
-            var sale = await _context.Sales.FindAsync(id);
-
-            if (sale == null)
+            try
             {
-                return NotFound();
-            }
+                var sale = await _context.Sales
+                .Include(s => s.Customer)
+                .Include(s => s.Product)
+                .Include(s => s.Store)
+                .FirstOrDefaultAsync(s => s.Id == id);
 
-            return sale;
+                if (sale == null)
+                {
+                    return NotFound("This record not in your DB");
+                }
+
+                return sale;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the sale record.");
+            }
         }
 
         // PUT: api/Sales/5
@@ -50,26 +75,37 @@ namespace AmilaOnboarding.Server.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(sale).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
                 if (!SaleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                    {
+                    return NotFound("This record not in your DB");
+                    }
 
-            return NoContent();
+                _context.Entry(sale).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SaleExists(id))
+                    {
+                        return NotFound("This record not in your DB");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while updating the sale record.");
+            }
         }
 
         // POST: api/Sales
@@ -77,26 +113,42 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Sale>> PostSale(Sale sale)
         {
-            _context.Sales.Add(sale);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Sales.Add(sale);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
+                return CreatedAtAction("GetSale", new { id = sale.Id }, sale);
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while creating the sale record.");
+            }
+            
         }
 
         // DELETE: api/Sales/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSale(int id)
         {
-            var sale = await _context.Sales.FindAsync(id);
-            if (sale == null)
+            try
             {
-                return NotFound();
+                var sale = await _context.Sales.FindAsync(id);
+                if (sale == null)
+                {
+                    return NotFound("This record not in your DB");
+                }
+
+                _context.Sales.Remove(sale);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Sales.Remove(sale);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while creating the sale record.");
+            }
+            
         }
 
         private bool SaleExists(int id)

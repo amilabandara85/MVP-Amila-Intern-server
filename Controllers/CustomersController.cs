@@ -31,45 +31,64 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-
-            if (customer == null)
+            try
             {
-                return NotFound();
-            }
+                var customer = await _context.Customers.FindAsync(id);
 
-            return customer;
+                if (customer == null)
+                {
+                    return NotFound();
+                }
+
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the customer record.");
+
+            }
         }
 
-        // PUT: api/Customers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+            // PUT: api/Customers/5
+            // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+            [HttpPut("{id}")]
         public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
             if (id != customer.Id)
             {
                 return BadRequest();
             }
-
-            _context.Entry(customer).State = EntityState.Modified;
-
             try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
             {
                 if (!CustomerExists(id))
                 {
-                    return NotFound();
+                    return NotFound("This Record not in youe DB");
                 }
-                else
+                _context.Entry(customer).State = EntityState.Modified;
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CustomerExists(id))
+                    {
+                        return NotFound("This Record not in youe DB");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the customer record.");
+
             }
 
-            return NoContent();
         }
 
         // POST: api/Customers
@@ -77,26 +96,45 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+                return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the customer record.");
+
+            }
         }
 
-        // DELETE: api/Customers/5
-        [HttpDelete("{id}")]
+
+
+            // DELETE: api/Customers/5
+            [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
+            try
             {
-                return NotFound();
+                var customer = await _context.Customers.FindAsync(id);
+                if (customer == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the customer record.");
+
             }
 
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         private bool CustomerExists(int id)

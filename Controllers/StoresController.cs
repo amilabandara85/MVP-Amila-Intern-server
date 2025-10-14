@@ -31,14 +31,22 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Store>> GetStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-
-            if (store == null)
+            try
             {
-                return NotFound();
-            }
+                var store = await _context.Stores.FindAsync(id);
 
-            return store;
+                if (store == null)
+                {
+                    return NotFound("This record not in your DB");
+                }
+
+                return store;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the store record.");
+            }
+            
         }
 
         // PUT: api/Stores/5
@@ -46,30 +54,47 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStore(int id, Store store)
         {
-            if (id != store.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(store).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StoreExists(id))
+            
+                if (id != store.Id)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
+                try
                 {
-                    throw;
-                }
-            }
+                    if (!StoreExists(id))
+                    {
+                        return NotFound("This record not in your DB");
+                    }
 
-            return NoContent();
+                    _context.Entry(store).State = EntityState.Modified;
+
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!StoreExists(id))
+                        {
+                            return NotFound("This record not in your DB");
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+
+                    return NoContent();
+
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the store record.");
+                }
+
+
+            
         }
 
         // POST: api/Stores
@@ -77,26 +102,42 @@ namespace AmilaOnboarding.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Store>> PostStore(Store store)
         {
-            _context.Stores.Add(store);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Stores.Add(store);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStore", new { id = store.Id }, store);
+                return CreatedAtAction("GetStore", new { id = store.Id }, store);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the store record.");
+            }
+            
         }
 
         // DELETE: api/Stores/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStore(int id)
         {
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+            try
             {
-                return NotFound();
+                var store = await _context.Stores.FindAsync(id);
+                if (store == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Stores.Remove(store);
+                await _context.SaveChangesAsync();
+
+                return NoContent();
             }
-
-            _context.Stores.Remove(store);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the store record.");
+            }
+            
         }
 
         private bool StoreExists(int id)
