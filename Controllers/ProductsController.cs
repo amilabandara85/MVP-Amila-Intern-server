@@ -22,9 +22,26 @@ namespace AmilaOnboarding.Server.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        //public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        //{
+        //    return await _context.Products.ToListAsync();
+        //}
+
+        public async Task<ActionResult<IEnumerable<object>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            try
+            {
+                // Modified to return only Id and Name, consolidating the functionality of the old "dropdown" API.
+                var products = await _context.Products
+                    .Select(p => new { id = p.Id, name = p.Name, price = p.Price })
+                    .ToListAsync();
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product list.");
+            }
         }
 
         // GET: api/Products/5
@@ -59,8 +76,6 @@ namespace AmilaOnboarding.Server.Controllers
             {
                 return BadRequest();
             }
-
-            
 
             try
             { 
@@ -146,5 +161,7 @@ namespace AmilaOnboarding.Server.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+
+     
     }
 }

@@ -9,7 +9,7 @@ using AmilaOnboarding.Server.Models;
 
 namespace AmilaOnboarding.Server.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -20,11 +20,41 @@ namespace AmilaOnboarding.Server.Controllers
             _context = context;
         }
 
+        //// GET: api/Customers
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        //{
+        //    try
+        //    {
+        //        // This fetches all customer records
+        //        return await _context.Customers.ToListAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Return 500 status code on database error
+        //        return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the customer list.");
+        //    }
+        //}
+
         // GET: api/Customers
+        //[HttpGet("dropdown")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+
+        public async Task<ActionResult<IEnumerable<object>>> GetCustomer()
         {
-            return await _context.Customers.ToListAsync();
+            try
+            {
+                // Modified to return only Id and Name, consolidating the functionality of the old "dropdown" API.
+                var customer = await _context.Customers
+                    .Select(c => new { id = c.Id, name = c.Name, address = c.Address })
+                    .ToListAsync();
+
+                return customer;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product list.");
+            }
         }
 
         // GET: api/Customers/5
@@ -141,5 +171,7 @@ namespace AmilaOnboarding.Server.Controllers
         {
             return _context.Customers.Any(e => e.Id == id);
         }
+
+
     }
 }
