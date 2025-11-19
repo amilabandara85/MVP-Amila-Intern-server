@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <History>True|2025-11-19T19:58:13.5919050Z||;True|2025-11-19T17:51:31.1601351+13:00||;True|2025-11-19T17:46:15.2325221+13:00||;True|2025-11-19T17:19:25.5891317+13:00||;True|2025-11-19T17:02:08.1239397+13:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="AzureSQLConnection">
+      <Value>Server=tcp:mvp-studio-sql-server.database.windows.net,1433%3bInitial Catalog=MVP_SQL_Database%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3bAuthentication=Active Directory Default</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
