@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <History>True|2025-11-22T04:22:38.5948766Z||;True|2025-11-22T17:09:40.0146464+13:00||;True|2025-11-22T17:01:49.1736532+13:00||;False|2025-11-22T17:00:31.5957919+13:00||;False|2025-11-22T16:59:57.5504728+13:00||;True|2025-11-22T16:46:05.0742248+13:00||;True|2025-11-22T16:33:28.2171415+13:00||;True|2025-11-22T15:54:53.6599978+13:00||;True|2025-11-22T15:12:22.8616294+13:00||;True|2025-11-21T19:33:36.6478996+13:00||;True|2025-11-21T17:01:35.0281172+13:00||;True|2025-11-21T16:54:57.6763021+13:00||;True|2025-11-21T16:51:56.0268854+13:00||;True|2025-11-21T16:34:03.0343351+13:00||;True|2025-11-20T08:58:13.5919050+13:00||;True|2025-11-19T17:51:31.1601351+13:00||;True|2025-11-19T17:46:15.2325221+13:00||;True|2025-11-19T17:19:25.5891317+13:00||;True|2025-11-19T17:02:08.1239397+13:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="AzureSQLConnection">
+      <Value>Server=tcp:mvp-studio-sql-server.database.windows.net,1433%3bInitial Catalog=MVP_SQL_Database%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3bAuthentication=Active Directory Default</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>
