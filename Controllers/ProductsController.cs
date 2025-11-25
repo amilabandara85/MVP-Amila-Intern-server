@@ -9,7 +9,8 @@ using AmilaOnboarding.Server.Models;
 
 namespace AmilaOnboarding.Server.Controllers
 {
-    [Route("[controller]")]
+    // Changed route to match the standard "api/Products" pattern
+    [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -22,9 +23,20 @@ namespace AmilaOnboarding.Server.Controllers
 
         // GET: api/Products
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<object>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            try
+            {
+                var products = await _context.Products
+                    .Select(p => new { id = p.Id, name = p.Name, price = p.Price })
+                    .ToListAsync();
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product list.");
+            }
         }
 
         // GET: api/Products/5
@@ -33,7 +45,6 @@ namespace AmilaOnboarding.Server.Controllers
         {
             try
             {
-
                 var product = await _context.Products.FindAsync(id);
 
                 if (product == null)
@@ -45,13 +56,11 @@ namespace AmilaOnboarding.Server.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,"An unexpected error occurred while retrieving the product record.");
-            
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product record.");
             }
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
@@ -60,45 +69,40 @@ namespace AmilaOnboarding.Server.Controllers
                 return BadRequest();
             }
 
-            
-
             try
-            { 
+            {
                 if (!ProductExists(id))
                 {
-                return NotFound("This Record not in youe DB");
+                    return NotFound("This Record not in your DB");
                 }
 
                 _context.Entry(product).State = EntityState.Modified;
 
                 try
                 {
-                await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!ProductExists(id))
-                {
-                    return NotFound("This Record not in youe DB");
+                    {
+                        return NotFound("This Record not in your DB");
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,"An unexpected error occurred while retrieving the product record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product record.");
             }
-        
-        
         }
 
         // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -111,11 +115,8 @@ namespace AmilaOnboarding.Server.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,"An unexpected error occurred while retrieving the product record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product record.");
             }
-            
-
-            
         }
 
         // DELETE: api/Products/5
@@ -137,9 +138,8 @@ namespace AmilaOnboarding.Server.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,"An unexpected error occurred while retrieving the product record.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the product record.");
             }
-            
         }
 
         private bool ProductExists(int id)
