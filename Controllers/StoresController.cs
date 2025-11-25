@@ -9,7 +9,7 @@ using AmilaOnboarding.Server.Models;
 
 namespace AmilaOnboarding.Server.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StoresController : ControllerBase
     {
@@ -22,9 +22,25 @@ namespace AmilaOnboarding.Server.Controllers
 
         // GET: api/Stores
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Store>>> GetStores()
+        //public async Task<ActionResult<IEnumerable<Store>>> GetStores()
+        //{
+        //    return await _context.Stores.ToListAsync();
+        //}
+
+        public async Task<ActionResult<IEnumerable<object>>> GetStores()
         {
-            return await _context.Stores.ToListAsync();
+            try
+            {
+                var stores = await _context.Stores
+                    .Select(s => new { id = s.Id, name = s.Name , address = s.Address})
+                    .ToListAsync();
+
+                return stores;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred while retrieving the stores list.");
+            }
         }
 
         // GET: api/Stores/5
@@ -144,5 +160,7 @@ namespace AmilaOnboarding.Server.Controllers
         {
             return _context.Stores.Any(e => e.Id == id);
         }
+
+
     }
 }

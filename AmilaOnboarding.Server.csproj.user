@@ -11,5 +11,6 @@
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>AmilaOnboarding.Server.Models.AmilaOnboardingContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
+    <NameOfLastUsedPublishProfile>E:\MVP studio\MVP_Project\AmilaOnboarding\AmilaOnboarding.Server\Properties\PublishProfiles\mvp-amila-WA - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

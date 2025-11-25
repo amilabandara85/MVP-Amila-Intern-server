@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <History>True|2025-11-25T06:10:11.8923342Z||;True|2025-11-25T19:04:09.7905772+13:00||;True|2025-11-25T18:52:08.8574748+13:00||;True|2025-11-25T18:39:04.6103828+13:00||;True|2025-11-25T18:24:37.9183254+13:00||;True|2025-11-25T18:05:32.4855555+13:00||;False|2025-11-25T18:01:28.2030908+13:00||;True|2025-11-25T17:48:31.7896606+13:00||;False|2025-11-25T17:35:07.6803957+13:00||;False|2025-11-25T17:25:54.0400292+13:00||;False|2025-11-25T17:11:03.7313143+13:00||;False|2025-11-25T16:49:31.9084935+13:00||;False|2025-11-25T16:43:44.7333150+13:00||;False|2025-11-25T16:32:14.1338236+13:00||;False|2025-11-24T21:40:31.0853784+13:00||;False|2025-11-24T21:36:12.0692979+13:00||;False|2025-11-24T21:31:15.0497209+13:00||;True|2025-11-23T19:53:10.7241800+13:00||;True|2025-11-23T19:28:41.6683635+13:00||;True|2025-11-23T19:26:30.9663718+13:00||;True|2025-11-23T18:50:44.8377822+13:00||;True|2025-11-23T18:44:29.8015146+13:00||;True|2025-11-23T18:35:30.9481653+13:00||;True|2025-11-23T16:08:09.8089952+13:00||;True|2025-11-23T16:06:27.6816242+13:00||;True|2025-11-23T16:04:04.6581234+13:00||;True|2025-11-23T16:01:24.1740801+13:00||;True|2025-11-22T17:22:38.5948766+13:00||;True|2025-11-22T17:09:40.0146464+13:00||;True|2025-11-22T17:01:49.1736532+13:00||;False|2025-11-22T17:00:31.5957919+13:00||;False|2025-11-22T16:59:57.5504728+13:00||;True|2025-11-22T16:46:05.0742248+13:00||;True|2025-11-22T16:33:28.2171415+13:00||;True|2025-11-22T15:54:53.6599978+13:00||;True|2025-11-22T15:12:22.8616294+13:00||;True|2025-11-21T19:33:36.6478996+13:00||;True|2025-11-21T17:01:35.0281172+13:00||;True|2025-11-21T16:54:57.6763021+13:00||;True|2025-11-21T16:51:56.0268854+13:00||;True|2025-11-21T16:34:03.0343351+13:00||;True|2025-11-20T08:58:13.5919050+13:00||;True|2025-11-19T17:51:31.1601351+13:00||;True|2025-11-19T17:46:15.2325221+13:00||;True|2025-11-19T17:19:25.5891317+13:00||;True|2025-11-19T17:02:08.1239397+13:00||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="AmilaOnboarding.Server.Models.AmilaOnboardingContext">
+      <Value>Server=tcp:mvp-studio-sql-server.database.windows.net,1433%3bInitial Catalog=MVP_SQL_Database%3bPersist Security Info=False%3bUser ID=sqladmin%3bPassword=1985%40Ammb%3bMultipleActiveResultSets=False%3bEncrypt=True%3bTrustServerCertificate=False%3bConnection Timeout=30%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

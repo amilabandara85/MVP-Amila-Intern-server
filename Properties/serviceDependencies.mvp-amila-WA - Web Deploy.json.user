@@ -1,0 +1,25 @@
+{
+  "dependencies": {},
+  "parameters": {
+    "mvp-amila-WA.subscriptionId": {
+      "Name": "mvp-amila-WA.subscriptionId",
+      "Type": "subscription",
+      "Value": "840aa40b-befb-4cbe-953d-ced633a2e159"
+    },
+    "mvp-amila-WA.resourceName": {
+      "Name": "mvp-amila-WA.resourceName",
+      "Type": null,
+      "Value": "mvp-amila-WA"
+    },
+    "mvp-amila-WA.resourceGroupName": {
+      "Name": "mvp-amila-WA.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "amilamvprg"
+    },
+    "mvp-amila-WA.resourceGroupLocation": {
+      "Name": "mvp-amila-WA.resourceGroupLocation",
+      "Type": null,
+      "Value": "australiaeast"
+    }
+  }
+}
